@@ -170,7 +170,7 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Image_Seo' ) ) {
 				'%image_title%'          => $image_post_title,
 				'%image_name%'           => $image_post_title,
 			);
-
+	
 			return $replacements;
 		}
 
@@ -217,9 +217,15 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Image_Seo' ) ) {
 		public function apply_title_format( $title, $image_id ) {
 			global $post;
 			$title = str_replace( '"', '', $title );
+			if ( 'on' === $this->options['aiosp_image_seo_alt_strip_punc'] ) {
+				$title = $this->strip_puncuation($title);
+			}
 			$title = str_replace( '%image_title%', $title, $this->options['aiosp_image_seo_title_format'] );
 			foreach ( $this->find_replacements( $post, $image_id ) as $key => $value ) {
 				if ( false !== strrpos( $title, $key ) ) {
+					if ( 'on' === $this->options['aiosp_image_seo_alt_strip_punc'] ) {
+						$value = $this->strip_puncuation($value);
+					}
 					$title = str_replace( $key, $value, $title );
 				}
 			}
@@ -241,16 +247,19 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Image_Seo' ) ) {
 		public function apply_alt_format( $alt, $image_id ) {
 			global $post;
 			$alt = str_replace( '"', '', $alt );
+			if ( 'on' === $this->options['aiosp_image_seo_alt_strip_punc'] ) {
+				$alt = $this->strip_puncuation( $alt );
+			}
 			$alt = str_replace( '%alt%', $alt, $this->options['aiosp_image_seo_alt_format'] );
 			foreach ( $this->find_replacements( $post, $image_id ) as $key => $value ) {
 				if ( false !== strrpos( $alt, $key ) ) {
+					if ( 'on' === $this->options['aiosp_image_seo_alt_strip_punc'] ) {
+						$value = $this->strip_puncuation($value);
+					}
 					$alt = str_replace( $key, $value, $alt );
 				}
 			}
 
-			if ( 'on' === $this->options['aiosp_image_seo_alt_strip_punc'] ) {
-				$alt = $this->strip_puncuation( $alt );
-			}
 			return $alt;
 		}
 
