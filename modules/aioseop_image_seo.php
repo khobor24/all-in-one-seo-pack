@@ -340,17 +340,18 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Image_Seo' ) ) {
 			$pieces = preg_split( '/(\w+=)/', $matches[0], - 1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
 			if ( in_array( 'class=', $pieces, true ) ) {
 				$index = array_search( 'class=', $pieces );
-				$image_class= substr($pieces[ $index + 1 ], 23, -1);
-				$image_id = intval(substr($image_class, 9, 2));
+				$image_class = substr($pieces[ $index + 1 ], 0 );
+				$image_id_position = strrpos( $image_class, 'wp-image-' );
+				$image_id = substr( substr($image_class, $image_id_position ), 9 );
 			}
 
 			if ( in_array( 'alt=', $pieces, true ) ) {
 				$index                = array_search( 'alt=', $pieces );
-				$pieces[ $index + 1 ] = '"' . $this->apply_alt_format( $pieces[ $index + 1 ] , $image_id ) . '" ';
+				$pieces[ $index + 1 ] = '"' . $this->apply_alt_format( $pieces[ $index + 1 ] , intval($image_id )) . '" ';
 			}
 			if ( in_array( 'title=', $pieces, true ) ) {
 				$index                = array_search( 'title=', $pieces );
-				$pieces[ $index + 1 ] = '"' . $this->apply_title_format( $pieces[ $index + 1 ] , $image_id ) . '" ';
+				$pieces[ $index + 1 ] = '"' . $this->apply_title_format( $pieces[ $index + 1 ] , intval($image_id )) . '" ';
 			}
 
 			return implode( '', $pieces ) . ' /';
