@@ -216,7 +216,7 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Image_Seo' ) ) {
 		 */
 		public function apply_title_format( $title, $image_id ) {
 			global $post;
-			$title = str_replace( '"', '', $title );
+			$title = str_replace( '"', '', get_the_title( $image_id ) );
 			if ( 'on' === $this->options['aiosp_image_seo_alt_strip_punc'] ) {
 				$title = $this->strip_puncuation($title);
 			}
@@ -350,7 +350,7 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Image_Seo' ) ) {
 				$pieces[ $index + 1 ] = '"' . $this->apply_alt_format( $pieces[ $index + 1 ] , intval($image_id )) . '" ';
 			}
 			if ( in_array( 'title=', $pieces, true ) ) {
-				$index                = array_search( 'title=', $pieces );
+				$index = array_search( 'title=', $pieces );
 				$pieces[ $index + 1 ] = '"' . $this->apply_title_format( $pieces[ $index + 1 ] , intval($image_id )) . '" ';
 			}
 
