@@ -720,6 +720,43 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Sitemap' ) ) {
 		}
 
 		/**
+		 * Extract images from post.
+		 *
+		 * @param $post
+		 *
+		 * @return array
+		 */
+		function extract_post_images( $post ) {
+			$hero_image = get_the_post_thumbnail_url( $post->ID );
+			if  ( ! empty( $hero_image ) ) {
+					$images[] = get_the_post_thumbnail_url( $post->ID );
+			}
+			$posttext = $post->post_content;
+			$reg_ex = '/class="(.*?)"/i';
+			preg_match_all( $reg_ex, $posttext, $allpics );
+
+
+			$regular_expression = '~src="[^"]*"~';
+			preg_match_all( $regular_expression, $posttext, $allpics );
+
+			foreach ( $allpics as $pic ) {
+				$pic = str_replace( 'src=' , '', $pic );
+				$pics = str_replace( '"' , '', $pic );
+			}
+
+			foreach ( $pics as $pic ) {
+				$images[] = $pic;
+			}
+			$image_urls = array();
+			if ( ! empty( $images ) ) {
+				foreach ( $images as $image ) {
+					$image_urls[]["image:loc"] = $image;
+				}
+			}
+			return $image_urls;
+		}
+
+		/**
 		 * Get sitemap urls of child blogs, if any.
 		 *
 		 * @return mixed|void
@@ -2546,7 +2583,7 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Sitemap' ) ) {
 						$date = 0;
 					}
 					if ( $prio_override && $freq_override ) {
-						$pr_info = array( 'lastmod' => $date, 'changefreq' => null, 'priority' => null );
+						$pr_info = array( 'lastmod' => $date, 'changefreq' => null, 'priority' => null, 'image:image' => null );
 					} else {
 						if ( empty( $post->comment_count ) ) {
 							$stat = 0;
@@ -2574,7 +2611,12 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Sitemap' ) ) {
 							$pr_info['changefreq'] = $this->options[ $this->prefix . 'freq_post_' . $post->post_type ];
 						}
 					}
-					$pr_info = array( 'loc' => $url ) + $pr_info; // Prepend loc to the array.
+					$images = $this->extract_post_images( $post );
+					foreach ( $images as $image ) {
+						$pr_info["image:image"][] = $image;
+					}
+					$pr_info = array( 'loc' => $url ) + $pr_info; 
+					// Prepend loc to the array.
 					if ( is_float( $pr_info['priority'] ) ) {
 						$pr_info['priority'] = sprintf( '%0.1F', $pr_info['priority'] );
 					}
@@ -2584,7 +2626,6 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Sitemap' ) ) {
 					}
 				}
 			}
-
 			return $prio;
 		}
 
