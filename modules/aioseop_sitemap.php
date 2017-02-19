@@ -727,25 +727,29 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Sitemap' ) ) {
 		 * @return array
 		 */
 		function extract_post_images( $post ) {
+			//Grab hero image
 			$hero_image = get_the_post_thumbnail_url( $post->ID );
 			if  ( ! empty( $hero_image ) ) {
 					$images[] = get_the_post_thumbnail_url( $post->ID );
 			}
+			//Grab inline images
 			$posttext = $post->post_content;
-			$reg_ex = '/class="(.*?)"/i';
-			preg_match_all( $reg_ex, $posttext, $allpics );
-
-
-			$regular_expression = '~src="[^"]*"~';
+			$regular_expression = '/<img[^>]+>/i';
 			preg_match_all( $regular_expression, $posttext, $allpics );
-
 			foreach ( $allpics as $pic ) {
-				$pic = str_replace( 'src=' , '', $pic );
-				$pics = str_replace( '"' , '', $pic );
-			}
-
-			foreach ( $pics as $pic ) {
-				$images[] = $pic;
+				foreach ( $pic as $singlepic ) {
+					preg_match_all( '/(src|class)="([^"]*)"/i', $singlepic, $matches );
+					$ret = array();
+					foreach($matches[1] as $i => $v) {
+						$ret[$v] = $matches[2][$i];
+					}
+					//Make sure it's a WordPress image
+					if ( strpos( $ret['class'], 'wp-' ) === false ) {
+						return;
+					} else {
+						$images[] = $ret['src'];
+					}		 
+				}
 			}
 			$image_urls = array();
 			if ( ! empty( $images ) ) {
@@ -1969,7 +1973,7 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Sitemap' ) ) {
 
 			$xml_header = '<?xml-stylesheet type="text/xsl" href="' . $xsl_url . '"?>' . "\r\n"
 			              . '<urlset ';
-			$namespaces = apply_filters( $this->prefix . 'xml_namespace', array( 'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9' ) );
+			$namespaces = apply_filters( $this->prefix . 'xml_namespace', array( 'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9' , 'xmlns:image' => 'http://www.google.com/schemas/sitemap-image/1.1'  ) );
 			if ( ! empty( $namespaces ) ) {
 				$ns = array();
 				foreach ( $namespaces as $k => $v ) {
