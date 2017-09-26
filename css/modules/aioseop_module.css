@@ -157,7 +157,7 @@ div.aioseop_tip_icon:before {
     overflow-y: auto;
 }
 
-.aioseop_tab .aioseop_option_div {
+.postbox-container .aioseop_option_div {
 	width: 100%;
 }
 
@@ -183,8 +183,8 @@ div.aioseop_tip_icon:before {
     max-width: 600px;
 }
 
-.aioseop_tab .aioseop_option_div input[type="text"],
-.aioseop_tab .aioseop_option_div textarea {
+.postbox-container .aioseop_option_div input[type="text"],
+.postbox-container .aioseop_option_div textarea {
 	width: 99%;
 	max-width: 900px;
 }
@@ -385,7 +385,7 @@ div.aioseop_tip_icon:before {
     height: 67px !important; /*added for certain language support*/
 }
 
-.aioseop_tab .aioseop_option_label {
+.postbox-container .aioseop_option_label {
 	max-width: none;
 	height: auto !important;
 }
@@ -810,13 +810,13 @@ div.aioseop_feature#aioseop_coming_soon2 .aioseop_featured_image {
     margin: 18px 0 10px 0;
 }
 
-.aioseop_tabs .aioseop_options {
+.postbox-container .aioseop_options {
 	margin: 0;
 }
 
 #aioseop_opengraph_settings .aioseop_options {
 	clear: both;
-	margin-top: 20px;
+	margin-top: 35px;
 }
 
 .aioseop_wrapper {
@@ -824,7 +824,7 @@ div.aioseop_feature#aioseop_coming_soon2 .aioseop_featured_image {
     padding-left: 5px;
 }
 
-.aioseop_tab .aioseop_wrapper {
+.postbox-container .aioseop_wrapper {
 	padding: 0;
 }
 
@@ -835,7 +835,7 @@ div.aioseop_feature#aioseop_coming_soon2 .aioseop_featured_image {
     display: inline;
 }
 
-.aioseop_tab .aioseop_input {
+.postbox-container .aioseop_input {
 	display: block;
 	margin-bottom: 10px;
 	padding: 0;
@@ -850,7 +850,7 @@ div.aioseop_feature#aioseop_coming_soon2 .aioseop_featured_image {
     /*	max-width: 900px; */
 }
 
-.aioseop_tab .aioseop_option_input {
+.postbox-container .aioseop_option_input {
 	width: 63%;
 	padding: 0;
 }
@@ -1053,25 +1053,25 @@ table.aioseop_table td, table.aioseop_table th {
     margin: 0 23px 0 13px;
 }
 
-.aioseop_tab div#aiosp_upgrade_wrapper {
+.postbox-container div#aiosp_upgrade_wrapper {
     float: none;
     width: auto;
     margin: 0;
 	padding: 0;
 }
 
-.aioseop_tab div#aiosp_upgrade_wrapper .aioseop_input {
+.postbox-container div#aiosp_upgrade_wrapper .aioseop_input {
 	display: block;
 	padding: 0;
 }
 
-.aioseop_tab div#aiosp_upgrade_wrapper .aioseop_input .aioseop_option_input {
+.postbox-container div#aiosp_upgrade_wrapper .aioseop_input .aioseop_option_input {
 	float: none;
 	width: auto;
 	padding: 0;
 }
 
-.aioseop_tab div#aiosp_upgrade_wrapper .aioseop_input .aioseop_option_input .aioseop_option_div {
+.postbox-container div#aiosp_upgrade_wrapper .aioseop_input .aioseop_option_input .aioseop_option_div {
 	width: auto;
 	min-height: 0;
 	padding: 10px 0;
@@ -1108,7 +1108,6 @@ table.aioseop_table td, table.aioseop_table th {
 
 #aioseop_opengraph_settings .inside {
     margin: 0;
-    padding: 0;
 }
 
 #aioseop_opengraph_settings_image_wrapper img {
