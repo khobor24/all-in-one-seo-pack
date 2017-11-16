@@ -3,7 +3,7 @@
 Plugin Name: All In One SEO Pack
 Plugin URI: https://semperplugins.com/all-in-one-seo-pack-pro-version/
 Description: Out-of-the-box SEO for your WordPress blog. Features like XML Sitemaps, SEO for custom post types, SEO for blogs or business sites, SEO for ecommerce sites, and much more. More than 30 million downloads since 2007.
-Version: 2.4.2.1
+Version: 2.4.1.1
 Author: Michael Torbert
 Author URI: https://semperplugins.com/all-in-one-seo-pack-pro-version/
 Text Domain: all-in-one-seo-pack
@@ -31,14 +31,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * The original WordPress SEO plugin.
  *
  * @package All-in-One-SEO-Pack
- * @version 2.4.2.1
+ * @version 2.4.1.1
  */
 
 if ( ! defined( 'AIOSEOPPRO' ) ) {
 	define( 'AIOSEOPPRO', false );
 }
 if ( ! defined( 'AIOSEOP_VERSION' ) ) {
-	define( 'AIOSEOP_VERSION', '2.4.2.1' );
+	define( 'AIOSEOP_VERSION', '2.4.1.1' );
 }
 global $aioseop_plugin_name;
 $aioseop_plugin_name = 'All in One SEO Pack';
@@ -325,8 +325,9 @@ if ( ! function_exists( 'aiosp_add_action_links' ) ) {
 
 		);
 
-		unset( $actions['edit'] );
-
+		if( is_array( $actions ) ){
+			unset( $actions['edit'] );			
+		}
 		if ( ! AIOSEOPPRO ) {
 			$action_links['proupgrade'] =
 				array(
@@ -351,6 +352,9 @@ if ( ! function_exists( 'aiosp_action_links' ) ) {
 	 * @return array
 	 */
 	function aiosp_action_links( $actions, $plugin_file, $action_links = array(), $position = 'after' ) {
+		if( ! is_array( $actions ) ){
+			return $actions;
+		}
 		static $plugin;
 		if ( ! isset( $plugin ) ) {
 			$plugin = plugin_basename( __FILE__ );
